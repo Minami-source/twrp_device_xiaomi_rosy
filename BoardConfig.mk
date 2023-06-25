@@ -50,25 +50,43 @@ BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive androidboot.usbconfigfs=true loop.max_part=7 audit=0
+BOARD_KERNEL_CMDLINE += androidboot.bootdevice=7824900.sdhci
+BOARD_KERNEL_CMDLINE += androidboot.console=ttyHSL0
+BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom msm_rtb.filter=0x237
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.usbconfigfs=true
+BOARD_KERNEL_CMDLINE += audit=0
+BOARD_KERNEL_CMDLINE += console=ttyHSL0,115200,n8
+BOARD_KERNEL_CMDLINE += earlycon=msm_hsl_uart,0x78af000
+BOARD_KERNEL_CMDLINE += ehci-hcd.park=3
+BOARD_KERNEL_CMDLINE += lpm_levels.sleep_disabled=1
+BOARD_KERNEL_CMDLINE += loop.max_part=7
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET := 0x01000000
+BOARD_KERNEL_TAGS_OFFSET := 0x00000100
+BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
-TARGET_PREBUILT_KERNEL := /device/xiaomi/rosy/prebuilt/Image.gz-dtb
+
+# Kernel - prebuilt
+TARGET_FORCE_PREBUILT_KERNEL := true
+ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
+endif
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-TARGET_KERNEL_CONFIG := rosy-perf_defconfig
+TARGET_KERNEL_CONFIG := rosy_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/rosy
 endif
+
 TARGET_KERNEL_VERSION := 4.9
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CLANG_COMPILE := true
-
-# Platform
-TARGET_BOARD_PLATFORM := msm8953
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno506
-QCOM_BOARD_PLATFORMS += $(TARGET_BOARD_PLATFORM)
+TARGET_KERNEL_CLANG_VERSION := proton
+TARGET_KERNEL_CLANG_PATH := $(shell pwd)/prebuilts/clang/host/linux-x86/proton-clang
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := $(TARGET_KERNEL_CLANG_PATH)/bin/aarch64-linux-gnu-
+CROSS_COMPILE := $(TARGET_KERNEL_CLANG_PATH)/bin/aarch64-linux-gnu-
+CROSS_COMPILE_ARM32 := $(TARGET_KERNEL_CLANG_PATH)/bin/arm-linux-gnueabi-
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
