@@ -75,7 +75,7 @@ TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
 endif
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-TARGET_KERNEL_CONFIG := rosy_defconfig
+TARGET_KERNEL_CONFIG := rosy-perf_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/rosy
 endif
 
