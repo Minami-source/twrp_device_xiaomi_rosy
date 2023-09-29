@@ -1,0 +1,4 @@
+ro.display.series=Redmi 5
+
+# Dynamic partition
+ro.boot.dynamic_partitions=true
