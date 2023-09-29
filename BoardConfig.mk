@@ -101,7 +101,6 @@ VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 BOARD_USES_QCOM_FBE_DECRYPTION := true
 
 # TWRP specific build flags
-TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 TW_DEVICE_VERSION := by kanarimalt
 TW_THEME := portrait_hdpi
 TW_SCREEN_BLANK_ON_BOOT := true
