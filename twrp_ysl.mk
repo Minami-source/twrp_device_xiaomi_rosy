@@ -21,11 +21,11 @@ PRODUCT_RELEASE_NAME := $(lastword $(subst /, ,$(lastword $(subst _, ,$(firstwor
 $(call inherit-product, vendor/twrp/config/common.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/xiaomi/rosy/device.mk)
+$(call inherit-product, device/xiaomi/ysl/device.mk)
 
 # Device identifier. This must come after all inclusions
 PRODUCT_NAME := twrp_$(PRODUCT_RELEASE_NAME)
 PRODUCT_DEVICE := $(PRODUCT_RELEASE_NAME)
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_MODEL := Redmi 5
+PRODUCT_MODEL := Redmi S2
